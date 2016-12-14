@@ -1,17 +1,14 @@
 var d = mvdom; // external lib
 
 /**
- * View: MainView
- * Description: Show app main view.
+ * View: TodoEditPopup
+ * Description: Show app TodoEditPopup.
  */
 
-d.register("MainView", {
+d.register("TodoEditPopup", {
 	
 	create: function(data, config) {
-		// first empty the content
-		d.first("body").innerHTML = "";
-
-		return render("tmpl-MainView");
+		return render("tmpl-TodoEditPopup");
 	},
 
 	postDisplay: function(data, config){
@@ -22,11 +19,15 @@ d.register("MainView", {
 
 	// --------- Events --------- //
 	events: {
-		"click; .btn-add": function(evt){
+		"click; .btn-close": function(){
 			var view = this;
-			d.display("TodoEditPopup", d.first("body"));
+			d.remove(view.el);
+		},
+		"click; .btn-save": function(){
+			var view = this;
+			d.remove(view.el);
 		}
-	},
+	}
 	// --------- /Events --------- //
 
 
