@@ -16,6 +16,8 @@ d.register("MainView", {
 
 	postDisplay: function(data, config){
 		var view = this;
+
+		d.display("TodoEditInfoView", d.first(view.el, ".right-con"));
 	}, 
 	// --------- /View Interface Implement --------- //
 
