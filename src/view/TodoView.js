@@ -1,29 +1,29 @@
 var d = mvdom; // external lib
 
 /**
- * View: MainView
+ * View: TodoView
  * Description: Show app main view.
  */
 
-d.register("MainView", {
+d.register("TodoView", {
 	
 	create: function(data, config) {
-		// first empty the content
-		d.first("body").innerHTML = "";
 
-		return render("tmpl-MainView");
+		return render("tmpl-TodoView");
 	},
 
 	postDisplay: function(data, config){
 		var view = this;
-		var contentEl = d.first(view.el, ".MainView-content");
-		d.empty(contentEl);
-		d.display("LoginView", contentEl);
 	}, 
 	// --------- /View Interface Implement --------- //
 
+
 	// --------- Events --------- //
 	events: {
+		"click; .btn-add": function(evt){
+			var view = this;
+			d.display("TodoEditPopup", d.first("body"));
+		}
 	},
 	// --------- /Events --------- //
 

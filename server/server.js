@@ -104,7 +104,7 @@ function initServer(){
 	});
 
 	// bind APIs
-
+	this.load(require('./api/api-user.js'));
 }
 // --------- /App Private Methods --------- //
 
