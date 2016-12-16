@@ -4,9 +4,20 @@
 			<div class="left-con-header">
 				<div class="btn btn-default btn-add">Add Todo</div>
 			</div>
+			<div class="todos-con">
+
+			</div>
 		</div>
 		<div class="right-con">
 			
 		</div>
 	</div>
+</script>
+
+<script id="tmpl-TodoView-todo-item" type="text/html">
+	{{#each todos}}
+	<div class="todo-item">
+		{{name}}
+	</div>
+	{{/each}}
 </script>

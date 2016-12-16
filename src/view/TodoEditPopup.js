@@ -25,7 +25,16 @@ d.register("TodoEditPopup", {
 		},
 		"click; .btn-save": function(){
 			var view = this;
-			d.remove(view.el);
+
+			var name = d.first(view.el, "input[name='name']").value;
+			if(name){
+				app.post("/task-create", {props: JSON.stringify({name: name, done: false})}).then(function(result){
+					d.trigger(document, "REFRESH_TASKS");
+					d.remove(view.el);
+				});
+			}else{
+				d.remove(view.el);
+			}
 		}
 	}
 	// --------- /Events --------- //

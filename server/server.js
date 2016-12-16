@@ -105,6 +105,7 @@ function initServer(){
 
 	// bind APIs
 	this.load(require('./api/api-user.js'));
+	this.load(require('./api/api-task.js'));
 }
 // --------- /App Private Methods --------- //
 

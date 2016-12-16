@@ -9,12 +9,21 @@
 	.left-con{
 		width: 304px;
 		border-right: 1px solid #ddd;
+		display: flex;
+		height: 100%;
+		flex-direction: column;
 		.left-con-header{
 			height: 48px;
 			border-bottom: 1px solid #ddd;
 			.btn{
 				float: right;
 				margin: 8px 16px;
+			}
+		}
+		.todos-con{
+			flex: 1;
+			.todo-item{
+				padding: 16px 8px;
 			}
 		}
 	}
