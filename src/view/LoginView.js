@@ -19,6 +19,15 @@ d.register("LoginView", {
 
 	// --------- Events --------- //
 	events: {
+		"keyup; input": function(evt){
+			var view = this;
+			if(evt.keyCode == 13){
+				var data = {};
+				data.username = d.first("#input-username").value;
+				data.pwd = d.first("#input-pwd").value;
+				login.call(view, data);
+			}
+		},
 		"click; .btn-login": function(evt){
 			var view = this;
 			var data = {};
