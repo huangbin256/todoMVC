@@ -21,6 +21,14 @@ d.register("TodoView", {
 
 	// --------- Events --------- //
 	events: {
+		"click; .todo-item": function(evt){
+			var view = this;
+			var targetEl = evt.target;
+			var id = targetEl.getAttribute("data-item-id");
+			var todosConEl = d.first(view.el, ".right-con");
+			d.empty(todosConEl);
+			d.display("TodoEditInfoView", todosConEl, {id: id});
+		},
 		"click; .btn-add": function(evt){
 			var view = this;
 			d.display("TodoEditPopup", d.first("body"));

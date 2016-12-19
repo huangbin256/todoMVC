@@ -16,7 +16,7 @@
 
 <script id="tmpl-TodoView-todo-item" type="text/html">
 	{{#each todos}}
-	<div class="todo-item">
+	<div class="todo-item" data-item-id="{{id}}">
 		{{name}}
 	</div>
 	{{/each}}

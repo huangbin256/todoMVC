@@ -30,6 +30,65 @@ routes.push({
 });
 
 routes.push({
+	method: 'POST',
+	path:'/task-update', 
+	handler: {
+		async: function* (request, reply) {
+			var payload = request.payload;
+			var props = Object.assign({}, JSON.parse(payload.props));
+			var id = props.id;
+			for(var i = 0; i < _tasks.length; i++){
+				var obj = _tasks[i];
+				if(obj.id == id){
+					_tasks.splice(i, 1, props);
+					break;
+				}
+			}
+			reply(props);
+		}
+	}
+});
+
+routes.push({
+	method: 'POST',
+	path:'/task-delete', 
+	handler: {
+		async: function* (request, reply) {
+			var payload = request.payload;
+			var id = payload.id;
+			for(var i = 0; i < _tasks.length; i++){
+				var obj = _tasks[i];
+				if(obj.id == parseInt(id)){
+					_tasks.splice(i, 1);
+					break;
+				}
+			}
+			reply(id);
+		}
+	}
+});
+
+routes.push({
+	method: 'GET',
+	path:'/task-get', 
+	handler: {
+		async: function* (request, reply) {
+			var payload = request.url.query;
+			var id = payload.id;
+			var task = null;
+			for(var i = 0; i < _tasks.length; i++){
+				var obj = _tasks[i];
+				if(obj.id == parseInt(id)){
+					task = _tasks[i];
+					break;
+				}
+			}
+			reply(task);
+		}
+	}
+});
+
+routes.push({
 	method: 'GET',
 	path:'/task-list', 
 	handler: {
