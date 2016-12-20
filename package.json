@@ -5,7 +5,7 @@
 	"main": "start.js",
 	"dependencies": {
 		"d3": "^3.5.17",
-		"mvdom": "^0.2.4"    
+		"mvdom": "^0.3.1"    
 	},
 	"devDependencies": {
 		"async6": "^0.1.2",

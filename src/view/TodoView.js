@@ -36,11 +36,13 @@ d.register("TodoView", {
 	},
 	// --------- /Events --------- //
 
-	docEvents: {
-		"REFRESH_TASKS": function(){
-			var view = this;
-			refreshTasks.call(view);
-		}
+	hubEvents: {
+		"taskHub": {
+            "Task; create, delete, update": function(data, info){
+            	var view = this;
+                refreshTasks.call(view);
+            }
+        }
 	}
 
 });
@@ -49,7 +51,7 @@ function refreshTasks(){
 	var view = this;
 	var todosConEl = d.first(view.el, ".todos-con");
 	d.empty(todosConEl);
-	app.get("/task-list").then(function(result){
+	taskHub.list().then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
 		todosConEl.innerHTML = todosHtml;
 	});

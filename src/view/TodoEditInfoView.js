@@ -15,7 +15,7 @@ d.register("TodoEditInfoView", {
 		var view = this;
 		data = data || {};
 		view.objId = data.id * 1;
-		app.get("/task-get", {id: data.id}).then(function(result){
+		taskHub.get(data.id).then(function(result){
 			renderTask.call(view, result);
 		});
 	}, 
@@ -30,10 +30,8 @@ d.register("TodoEditInfoView", {
 		},
 		"click; .btn-delete": function(evt){
 			var view = this;
-			app.post("/task-delete", {id: view.objId}).then(function(result){
-				d.remove(view.el);
-				d.trigger(document, "REFRESH_TASKS");
-			});
+			taskHub.pub("Task", "delete", view.objId);
+			d.remove(view.el);
 		}
 	}
 	// --------- /Events --------- //
@@ -63,10 +61,11 @@ function saveTask(){
 	props.description = d.first(view.el, "textarea[name='description']").value;
 
 	var checkboxEl = d.first(view.el, "input[name='done']:checked");
+
 	props.done = false;
-	if(checkboxEl){
+	if(checkboxEl.value == 'true'){
 		props.done = true;
 	}
 
-	app.post("/task-update", {props: JSON.stringify(props)});
+	taskHub.pub("Task", "update", props);
 }
