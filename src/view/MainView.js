@@ -11,7 +11,7 @@ d.register("MainView", {
 		// first empty the content
 		d.first("body").innerHTML = "";
 
-		return render("tmpl-MainView");
+		return render("tmpl-MainView", {user: app.pref.get("username")});
 	},
 
 	postDisplay: function(data, config){
@@ -28,6 +28,11 @@ d.register("MainView", {
 
 	// --------- Events --------- //
 	events: {
+		"click; .logout": function(){
+			var view = this;
+			app.pref.set("username", "");
+			window.location.reload(true);
+		}
 	},
 	// --------- /Events --------- //
 
