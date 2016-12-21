@@ -18,7 +18,11 @@ d.register("MainView", {
 		var view = this;
 		var contentEl = d.first(view.el, ".MainView-content");
 		d.empty(contentEl);
-		d.display("LoginView", contentEl);
+		if(app.pref.get("username")){
+			d.display("TodoView", contentEl);
+		}else{
+			d.display("LoginView", contentEl);
+		}
 	}, 
 	// --------- /View Interface Implement --------- //
 

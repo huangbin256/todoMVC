@@ -47,9 +47,8 @@ function login(data){
 	if(!message){
 		app.post("/login", data).then(function(response){
 			if (response.success){
-				var contentEl = d.closest(view.el, ".MainView-content");
-				d.display("TodoView", contentEl);
-				d.remove(view.el);
+				app.pref.set("username", data.username)
+				window.location.reload(true);
 			}else{
 				message = response.errorMessage;
 				if(message){
