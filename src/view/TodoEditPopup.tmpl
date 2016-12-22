@@ -1,14 +1,14 @@
 <script id="tmpl-TodoEditPopup" type="text/html">
-	<div class="TodoEditPopup modal" tabindex="-1" role="dialog">
+	<div class="TodoEditPopup modal " tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div class="modal-content" draggable="true" >
+				<div class="modal-header" >
 					<button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">Edit Todo</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Name</label>
+						<label class="col-sm-2 control-label">Name:</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" name="name" placeholder="Name">
 						</div>

@@ -33,6 +33,18 @@ d.register("TodoEditPopup", {
 			}else{
 				d.remove(view.el);
 			}
+		},
+		"dragstart; .modal-content":function(evt){
+			var view = this;
+			view._pageX = evt.pageX;
+			view._pageY = evt.pageY;
+		},
+		"dragend; .modal-content": function(evt){
+			var view = this;
+			evt.preventDefault();
+			var contentEl = d.first(view.el, ".modal-content");
+			contentEl.style.left = (evt.pageX - view._pageX) + "px";
+			contentEl.style.top = (evt.pageY - view._pageY) + "px";
 		}
 	}
 	// --------- /Events --------- //
@@ -41,4 +53,9 @@ d.register("TodoEditPopup", {
 });
 
 
-
+function getOffset(el){
+	var view = this;
+	var left = el.style.left.replace("px", "") * 1;
+	var top = el.style.left.replace("px", "") * 1;
+	return {left, top};
+}
