@@ -41,6 +41,7 @@ d.register("TodoEditInfoView", {
 
 function renderTask(task){
 	var view = this;
+	task.done = task.done ? "true" : "false";
 	d.push(view.el, task);
 }
 
