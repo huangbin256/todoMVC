@@ -16,13 +16,6 @@ d.register("MainView", {
 
 	postDisplay: function(data, config){
 		var view = this;
-		var contentEl = d.first(view.el, ".MainView-content");
-		d.empty(contentEl);
-		if(app.pref.get("username")){
-			d.display("TodoView", contentEl);
-		}else{
-			d.display("LoginView", contentEl);
-		}
 	}, 
 	// --------- /View Interface Implement --------- //
 
@@ -36,8 +29,39 @@ d.register("MainView", {
 	},
 	// --------- /Events --------- //
 
+	// --------- Document Events --------- //
+	docEvents: {
+		// event for url changes
+		"APP_CTX_CHANGE": function(event){
+			var view = this;
+
+			showView.call(view);
+		}
+	}
+	// --------- /Document Events --------- //
 
 });
 
+// hashpath / Template View mapping
+var viewNameByPath = {
+	"todo": "TodoView"
+};
 
+function showView(){
+	var view = this;
+	var path0 = app.ctx.pathAt(0);
+	var path1 = app.ctx.pathAt(1);
+	var contentViewName = viewNameByPath[path0];
+
+	var contentEl = d.first(view.el, ".MainView-content");
+	d.empty(contentEl);
+	if(app.pref.get("username")){
+		if(!path0 || path0 == "todo"){
+			d.display("TodoView", contentEl, {id: path1});
+		}
+	}else{
+		d.display("LoginView", contentEl);
+	}
+
+}
 

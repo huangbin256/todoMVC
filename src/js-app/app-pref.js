@@ -1,5 +1,5 @@
-
-var app = window.app || {};
+var d = mvdom;
+var app = require("./app.js");
 
 app.pref = {
 	set : function(key, value) {

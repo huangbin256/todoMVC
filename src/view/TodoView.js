@@ -14,6 +14,8 @@ d.register("TodoView", {
 
 	postDisplay: function(data, config){
 		var view = this;
+		data = data || {};
+		showTodoView.call(view, data.id);
 		refreshTasks.call(view);
 	}, 
 	// --------- /View Interface Implement --------- //
@@ -25,9 +27,7 @@ d.register("TodoView", {
 			var view = this;
 			var targetEl = evt.target;
 			var id = targetEl.getAttribute("data-item-id");
-			var todosConEl = d.first(view.el, ".right-con");
-			d.empty(todosConEl);
-			d.display("TodoEditInfoView", todosConEl, {id: id});
+			window.location.hash = "#todo/"+id;
 		},
 		"click; .btn-add": function(evt){
 			var view = this;
@@ -46,6 +46,15 @@ d.register("TodoView", {
 	}
 
 });
+
+function showTodoView(id){
+	var view = this;
+	var todosConEl = d.first(view.el, ".right-con");
+	d.empty(todosConEl);
+	if(id){
+		d.display("TodoEditInfoView", todosConEl, {id: id});
+	}
+}
 
 function refreshTasks(){
 	var view = this;
