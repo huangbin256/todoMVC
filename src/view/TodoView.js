@@ -63,6 +63,20 @@ function refreshTasks(){
 	taskHub.list().then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
 		todosConEl.innerHTML = todosHtml;
+		showActiveItem.call(view);
 	});
+}
+
+function showActiveItem(){
+	var view = this;
+	var path1 = app.ctx.pathAt(1);
+	var activeId = path1 * 1;
+	var todoEls = d.all(view.el, ".todo-item");
+	for(var i = 0; i < todoEls.length; i++){
+		app.class.remove(todoEls[i], "active");
+	}
+	if(!isNaN(activeId)){
+		app.class.add(d.first(view.el, ".todo-item[data-item-id='"+activeId+"']"), "active");
+	}
 }
 
