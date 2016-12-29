@@ -41,6 +41,10 @@ d.register("TodoView", {
             "Task; create, delete, update": function(data, info){
             	var view = this;
                 refreshTasks.call(view);
+            },
+            "Task; update": function(data, info){
+            	var view = this;
+            	d.display("Toast", d.first("body"), {message: "Updated Success"});
             }
         }
 	}
