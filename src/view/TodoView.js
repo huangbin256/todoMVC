@@ -81,6 +81,8 @@ function showActiveItem(){
 	}
 	if(!isNaN(activeId)){
 		app.class.add(d.first(view.el, ".todo-item[data-item-id='"+activeId+"']"), "active");
+	}else if(path1 == "new"){
+		d.display("TodoEditPopup", d.first("body"));
 	}
 }
 

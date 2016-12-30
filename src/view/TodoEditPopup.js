@@ -30,6 +30,7 @@ d.register("TodoEditPopup", {
 			if(name){
 				taskHub.pub("Task", "create", {name: name, done: false});
 				d.remove(view.el);
+				window.location.hash="#";
 			}else{
 				d.remove(view.el);
 			}
