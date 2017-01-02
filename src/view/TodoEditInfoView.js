@@ -30,7 +30,7 @@ d.register("TodoEditInfoView", {
 		},
 		"click; .btn-delete": function(evt){
 			var view = this;
-			taskHub.pub("Task", "delete", view.objId);
+			taskHub.delete(view.objId);
 			d.remove(view.el);
 		}
 	}
@@ -52,5 +52,5 @@ function saveTask(){
 	props.id = view.objId;
 	props = Object.assign(props, d.pull(view.el));
 	// prop.done = props.done == "true" ? true : false;
-	taskHub.pub("Task", "update", props);
+	taskHub.update(props);
 }

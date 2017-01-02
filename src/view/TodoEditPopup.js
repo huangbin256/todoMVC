@@ -28,9 +28,8 @@ d.register("TodoEditPopup", {
 
 			var name = d.first(view.el, "input[name='name']").value;
 			if(name){
-				taskHub.pub("Task", "create", {name: name, done: false});
+				taskHub.create({name: name, done: false});
 				d.remove(view.el);
-				window.location.hash="#";
 			}else{
 				d.remove(view.el);
 			}

@@ -38,12 +38,18 @@ d.register("TodoView", {
 
 	hubEvents: {
 		"taskHub": {
-            "Task; create, delete, update": function(data, info){
+            "Task; delete": function(data, info){
             	var view = this;
                 refreshTasks.call(view);
             },
+            "Task; create": function(data, info){
+            	var view = this;
+            	d.display("Toast", d.first("body"), {message: "Created Success"});
+				window.location.hash = "#todo/"+data.id;
+            },
             "Task; update": function(data, info){
             	var view = this;
+                refreshTasks.call(view);
             	d.display("Toast", d.first("body"), {message: "Updated Success"});
             }
         }
@@ -64,7 +70,7 @@ function refreshTasks(){
 	var view = this;
 	var todosConEl = d.first(view.el, ".todos-con");
 	d.empty(todosConEl);
-	taskHub.list().then(function(result){
+	return taskHub.list().then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
 		todosConEl.innerHTML = todosHtml;
 		showActiveItem.call(view);
@@ -80,7 +86,10 @@ function showActiveItem(){
 		app.class.remove(todoEls[i], "active");
 	}
 	if(!isNaN(activeId)){
-		app.class.add(d.first(view.el, ".todo-item[data-item-id='"+activeId+"']"), "active");
+		var activeItemEl = d.first(view.el, ".todo-item[data-item-id='"+activeId+"']");
+		if(activeItemEl){
+			app.class.add(activeItemEl, "active");
+		}
 	}else if(path1 == "new"){
 		d.display("TodoEditPopup", d.first("body"));
 	}
