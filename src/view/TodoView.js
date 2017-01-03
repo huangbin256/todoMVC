@@ -85,13 +85,20 @@ function showActiveItem(){
 	for(var i = 0; i < todoEls.length; i++){
 		app.class.remove(todoEls[i], "active");
 	}
-	if(!isNaN(activeId)){
+	
+	if(!isNaN(activeId) && activeId > 0){
 		var activeItemEl = d.first(view.el, ".todo-item[data-item-id='"+activeId+"']");
 		if(activeItemEl){
 			app.class.add(activeItemEl, "active");
 		}
 	}else if(path1 == "new"){
 		d.display("TodoEditPopup", d.first("body"));
+	}else{
+		var activeItemEl = d.first(view.el, ".todo-item");
+		if(activeItemEl){
+			activeId = activeItemEl.getAttribute("data-item-id");
+			window.location.hash = "#todo/"+activeId;
+		}
 	}
 }
 
