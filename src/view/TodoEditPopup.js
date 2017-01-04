@@ -34,17 +34,29 @@ d.register("TodoEditPopup", {
 				d.remove(view.el);
 			}
 		},
-		"dragstart; .modal-content":function(evt){
+		"mousedown; .modal-content":function(evt){
 			var view = this;
-			view._pageX = evt.pageX;
-			view._pageY = evt.pageY;
-		},
-		"dragend; .modal-content": function(evt){
-			var view = this;
-			evt.preventDefault();
 			var contentEl = d.first(view.el, ".modal-content");
-			contentEl.style.left = (evt.pageX - view._pageX) + "px";
-			contentEl.style.top = (evt.pageY - view._pageY) + "px";
+			var offset = getOffset.call(view, contentEl);
+			view._startOffset = {
+				left: evt.pageX - offset.left,
+				top: evt.pageY - offset.top
+			};
+			view._drag = true;
+		}
+	},
+	docEvents: {
+		"mousemove":function(evt){
+			var view = this;
+			if(view._drag){
+				var contentEl = d.first(view.el, ".modal-content");
+				contentEl.style.left = (evt.pageX - view._startOffset.left) + "px";
+				contentEl.style.top = (evt.pageY - view._startOffset.top) + "px";
+			}
+		},
+		"mouseup": function(evt){
+			var view = this;
+			view._drag = false;
 		}
 	}
 	// --------- /Events --------- //
@@ -56,6 +68,6 @@ d.register("TodoEditPopup", {
 function getOffset(el){
 	var view = this;
 	var left = el.style.left.replace("px", "") * 1;
-	var top = el.style.left.replace("px", "") * 1;
+	var top = el.style.top.replace("px", "") * 1;
 	return {left, top};
 }
