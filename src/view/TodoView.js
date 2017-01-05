@@ -32,27 +32,33 @@ d.register("TodoView", {
 		"click; .btn-add": function(evt){
 			var view = this;
 			d.display("TodoEditPopup", d.first("body"));
+		},
+		"keyup; input[name='searchName']": function(evt){
+			var view = this;
+			if(evt.keyCode == 13){
+				filterItems.call(view);
+			}
 		}
 	},
 	// --------- /Events --------- //
 
 	hubEvents: {
 		"taskHub": {
-            "Task; delete": function(data, info){
-            	var view = this;
-                refreshTasks.call(view);
-            },
-            "Task; create": function(data, info){
-            	var view = this;
-            	d.display("Toast", d.first("body"), {message: "Created Success"});
+			"Task; delete": function(data, info){
+				var view = this;
+				refreshTasks.call(view);
+			},
+			"Task; create": function(data, info){
+				var view = this;
+				d.display("Toast", d.first("body"), {message: "Created Success"});
 				window.location.hash = "#todo/"+data.id;
-            },
-            "Task; update": function(data, info){
-            	var view = this;
-                refreshTasks.call(view);
-            	d.display("Toast", d.first("body"), {message: "Updated Success"});
-            }
-        }
+			},
+			"Task; update": function(data, info){
+				var view = this;
+				refreshTasks.call(view);
+				d.display("Toast", d.first("body"), {message: "Updated Success"});
+			}
+		}
 	}
 
 });
@@ -69,6 +75,7 @@ function showTodoView(id){
 function refreshTasks(){
 	var view = this;
 	var todosConEl = d.first(view.el, ".todos-con");
+
 	d.empty(todosConEl);
 	return taskHub.list().then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
@@ -102,3 +109,16 @@ function showActiveItem(){
 	}
 }
 
+function filterItems(){
+	var view = this;
+	var inputEl = d.first(view.el, "input[name='searchName']");
+	var searchName = inputEl.value;
+	d.all(view.el, ".todo-item").forEach(function(todoItemEl){
+		var itemName = todoItemEl.innerHTML;
+		if(searchName && itemName.toLowerCase().indexOf(searchName) > -1){
+			app.class.remove(todoItemEl, "hide");
+		}else{
+			app.class.add(todoItemEl, "hide");
+		}
+	});
+}
