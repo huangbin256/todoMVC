@@ -4,8 +4,13 @@
 			<div class="left-con-header">
 				<div class="btn btn-primary btn-add">Add Todo</div>
 			</div>
-			<div class="search-con">
-				<input type="text" class="form-control" name="searchName" placeholder="Search Name">
+			<div class="filter-con">
+				<div class="search-con">
+					<input type="text" class="form-control" name="searchName" placeholder="Search Name">
+				</div>
+				<div class="state-con">
+					<div class="btn btn-default btn-toggle-done show-done">Show Done</div>
+				</div>
 			</div>
 			<div class="todos-con">
 
@@ -19,7 +24,7 @@
 
 <script id="tmpl-TodoView-todo-item" type="text/html">
 	{{#each todos}}
-	<div class="todo-item" data-item-id="{{id}}">
+	<div class="todo-item" data-item-id="{{id}}" data-item-state="{{done}}">
 		{{name}}
 	</div>
 	{{/each}}

@@ -38,7 +38,21 @@ d.register("TodoView", {
 			if(evt.keyCode == 13){
 				filterItems.call(view);
 			}
-		}
+		},
+		"click; .btn-toggle-done": function(evt){
+			var view = this;
+			var btnEl = evt.target;
+			if(app.class.has(btnEl, "show-done")){
+				btnEl.innerHTML = "Show All";
+				app.class.add(btnEl, "show-all");
+				app.class.remove(btnEl, "show-done");
+			}else{
+				btnEl.innerHTML = "Show Done";
+				app.class.add(btnEl, "show-done");
+				app.class.remove(btnEl, "show-all");
+			}
+			filterItems.call(view);
+		},
 	},
 	// --------- /Events --------- //
 
@@ -112,10 +126,13 @@ function showActiveItem(){
 function filterItems(){
 	var view = this;
 	var inputEl = d.first(view.el, "input[name='searchName']");
+	var btnEl = d.first(view.el, ".btn-toggle-done");
 	var searchName = inputEl.value;
+	var done = app.class.has(btnEl, "show-done") ? false : true;
 	d.all(view.el, ".todo-item").forEach(function(todoItemEl){
 		var itemName = todoItemEl.innerHTML;
-		if(searchName && itemName.toLowerCase().indexOf(searchName) > -1){
+		var doneState = todoItemEl.getAttribute("data-item-state");
+		if((!searchName || itemName.toLowerCase().indexOf(searchName) > -1) && (!done || doneState == "true")){
 			app.class.remove(todoItemEl, "hide");
 		}else{
 			app.class.add(todoItemEl, "hide");

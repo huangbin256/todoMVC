@@ -20,12 +20,25 @@
 				margin: 8px 16px;
 			}
 		}
-		.search-con{
+		.filter-con{
+			display: flex;
+			flex-direction: row;
 			height: 48px;
 			margin: 0 16px;
-			input{
-				width: 100%;
-				margin: 8px 0px;
+			.search-con{
+				flex: 1;
+				input{
+					width: 100%;
+					margin: 8px 0px;
+				}
+			}
+			.state-con{
+				width: 72px;
+				.btn{
+					margin: 12px 6px;
+					padding: 2px 5px;
+					font-size: 12px;
+				}
 			}
 		}
 		.todos-con{
