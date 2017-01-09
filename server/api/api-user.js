@@ -1,5 +1,5 @@
 var utils = require('../utils.js');
-var fs = require("fs");
+var daos = require('../dao/daos.js');
 
 var routes = []; 
 
@@ -13,19 +13,17 @@ routes.push({
 	handler: {
 		async: function* (request, reply) {
 			var payload = request.payload;
-			var userData = fs.readFile("./server/data/data-users.json", "utf-8", function(err, data){
-				var users = JSON.parse(data);
-				for(var i = 0; i < users.length; i++){
-					var user = users[i];
-					if(payload.username == user.username && payload.pwd == user.pwd){
-						reply({success: true});
-					}else{
-						var res = {success: false, errorMessage: "Username or password incorrect"};
-						reply(res);
-					}
+			var users = yield daos.user.list();
+			for(var i = 0; i < users.length; i++){
+				var user = users[i];
+			console.log(payload.username == user.username , payload.pwd == user.pwd);
+				if(payload.username == user.username && payload.pwd == user.pwd){
+					reply({success: true});
+				}else{
+					var res = {success: false, errorMessage: "Username or password incorrect"};
+					reply(res);
 				}
-
-			});
+			}
 		}
 	}
 });

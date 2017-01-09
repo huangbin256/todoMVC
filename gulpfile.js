@@ -8,6 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var vdev = require('vdev');
 
 var ext_replace = require('gulp-ext-replace');
 
@@ -137,4 +138,13 @@ function files(dirs, ending){
 	return files;
 }
 // --------- /utils --------- //
+
+// --------- Dev Tasks --------- //
+var sqlDir = "./sql/";
+var dbPrefix = "todomvc";
+gulp.task('recreateDb', function(){
+	vdev.pg.psqlImport({user:"postgres", db:"postgres"}, vdev.pg.listSqlFiles(sqlDir,{to:0}));      
+	vdev.pg.psqlImport({user: dbPrefix + "_user", db: dbPrefix + "_db"}, vdev.pg.listSqlFiles(sqlDir,{from:1}));
+});
+// --------- /Dev Tasks --------- //
 

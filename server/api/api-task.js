@@ -1,19 +1,11 @@
 var utils = require('../utils.js');
-var fs = require("fs");
+var daos = require('../dao/daos.js');
 
 var routes = []; 
 
 // This export One Extension that can have multiple routes 
 // that will be loaded by App in app.js
 module.exports = routes;
-
-var _tasks = [];
-var _taskSeq = 1;
-fs.readFile("./server/data/data-tasks.json", "utf-8", function(err, taskData){
-	var tasks = JSON.parse(taskData);
-	_tasks = Object.assign([], tasks);
-	_taskSeq = tasks.length + 1;
-});
 
 routes.push({
 	method: 'POST',
@@ -22,8 +14,7 @@ routes.push({
 		async: function* (request, reply) {
 			var payload = request.payload;
 			var props = Object.assign({}, JSON.parse(payload.props));
-			props.id = _taskSeq++;
-			_tasks.push(props);
+			yield daos.task.create(props);
 			reply(props);
 		}
 	}
@@ -36,14 +27,7 @@ routes.push({
 		async: function* (request, reply) {
 			var payload = request.payload;
 			var props = Object.assign({}, JSON.parse(payload.props));
-			var id = props.id;
-			for(var i = 0; i < _tasks.length; i++){
-				var obj = _tasks[i];
-				if(obj.id == id){
-					_tasks.splice(i, 1, props);
-					break;
-				}
-			}
+			yield daos.task.update(props);
 			reply(props);
 		}
 	}
@@ -56,13 +40,7 @@ routes.push({
 		async: function* (request, reply) {
 			var payload = request.payload;
 			var id = payload.id;
-			for(var i = 0; i < _tasks.length; i++){
-				var obj = _tasks[i];
-				if(obj.id == parseInt(id)){
-					_tasks.splice(i, 1);
-					break;
-				}
-			}
+			yield daos.task.delete(id);
 			reply(id);
 		}
 	}
@@ -75,14 +53,7 @@ routes.push({
 		async: function* (request, reply) {
 			var payload = request.url.query;
 			var id = payload.id;
-			var task = null;
-			for(var i = 0; i < _tasks.length; i++){
-				var obj = _tasks[i];
-				if(obj.id == parseInt(id)){
-					task = _tasks[i];
-					break;
-				}
-			}
+			var task =  yield daos.task.get(id);
 			reply(task);
 		}
 	}
@@ -94,7 +65,8 @@ routes.push({
 	handler: {
 		async: function* (request, reply) {
 			var payload = request.payload;
-			reply(_tasks);
+			var tasks =  yield daos.task.list();
+			reply(tasks);
 		}
 	}
 });

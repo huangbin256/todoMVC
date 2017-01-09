@@ -8,6 +8,8 @@ const HapiAsync = require('./utils.js').HapiAsync;
 
 const run = require('async6').run;
 
+const db = require('./dao/db.js');
+
 var isWin = /^win/.test( process.platform );
 
 // Default app config. 
@@ -36,6 +38,7 @@ class App{
 		function* _init(){
 			console.log("___init");
 			yield initServer.call(this);
+			yield db.init({user: "todomvc_user", db: "todomvc_db", pwd: "welcome"});
 		}	
 
 		return run(_init.call(this));
