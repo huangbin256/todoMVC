@@ -14,8 +14,8 @@ routes.push({
 		async: function* (request, reply) {
 			var payload = request.payload;
 			var props = Object.assign({}, JSON.parse(payload.props));
-			yield daos.task.create(props);
-			reply(props);
+			var id = yield daos.task.create(props);
+			reply(Object.assign({}, {id: id}, props));
 		}
 	}
 });
