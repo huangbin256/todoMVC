@@ -17,7 +17,7 @@ var isWin = /^win/.test( process.platform );
 var defaultCfg = {
 	//host: 'localhost',    // connection host (if we do this only does not work when deployed)
 	port: 8080,			    // connection port
-	clientRoot: process.cwd() + '/', // root of the client files (which will be served statically)	
+	clientRoot: process.cwd() + '/web/', // root of the client files (which will be served statically)	
 	routes: { cors: 
 						{origin: ['*'], 
 							additionalHeaders: ["Accept-language"]

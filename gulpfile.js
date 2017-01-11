@@ -33,8 +33,8 @@ var processors = [
 ];
 // --------- /postcss require --------- //
 
-var jsDir = path.join(webappDir,"js/");
-var cssDir = path.join(webappDir,"css/");
+var jsDir = path.join(webappDir,"web/js/");
+var cssDir = path.join(webappDir,"web/css/");
 
 gulp.task('default',['clean', 'pcss', 'tmpl', 'lib-bundle', 'app-bundle']);
 
@@ -63,7 +63,7 @@ gulp.task('clean', function(){
 		dir = dirs[i];
 		// make sure the directories exists (they might not in fresh clone)
 		if (!fs.existsSync(dir)) {
-			fs.mkdir(dir);
+			fs.mkdirs(dir);
 		}
 		// delete the .css and .js files (this makes sure we do not )
 		del.sync(dir + "*.css");

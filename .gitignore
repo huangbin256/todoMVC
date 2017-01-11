@@ -1,42 +1,23 @@
 # Ignore mac info files
 .DS_Store
 
-# Ingore eclipse stuff, should be for each developer, so, ignore
-.classpath
-.project
-.settings
-
 # ignore node_modules
 node_modules/
+npm-debug.log
 
-# since we use Maven, ant buil.xml will be private for each developers
-#  (if they need their own scripts to do some stuff)
-build.xml
 
-# maven target (we definitely do not want this one in git)
-target/
-# prevent tmp/ should be for dev db and stuff
+# tmp/ can be used for any type of temporary file (build, runtime, ...)
 tmp/
-notes/
-#ignore dev/ folder
-#dev/
 
-# prevent the compiled .js/.css files to be in the SCM
-templates.js
-*.css
-!src/bootstrap/*
-!dev/*.css
+# local/ is where each developer can store their personal notes and data
+local/
 
-# prevent js/*.js (as they are distribution files)
-js/*.js
+# web/js/ and web/css will be compiled from the src/** (never checkin compiled files)
+web/js/
+web/css/
 
-
-# prevent the .map
+# no matter where, prevent the .map to be checked in
 *.map
-
-# remove intellij stuff
-*.iml
-.idea/
 
 # Ignore Sublime Text files
 *.sublime-project
