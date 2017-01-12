@@ -1,4 +1,5 @@
 var d = mvdom; // external lib
+var ds = require("../js-app/ds.js");
 
 /**
  * View: TodoEditPopup
@@ -28,7 +29,7 @@ d.register("TodoEditPopup", {
 
 			var name = d.first(view.el, "input[name='name']").value;
 			if(name){
-				taskHub.create({name: name, done: false});
+				ds.create("task", {name: name, done: false});
 				d.remove(view.el);
 			}else{
 				d.remove(view.el);

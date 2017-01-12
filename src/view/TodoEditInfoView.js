@@ -1,4 +1,5 @@
 var d = mvdom; // external lib
+var ds = require("../js-app/ds.js");
 
 /**
  * View: TodoEditInfoView
@@ -15,7 +16,7 @@ d.register("TodoEditInfoView", {
 		var view = this;
 		data = data || {};
 		view.objId = data.id * 1;
-		taskHub.get(data.id).then(function(result){
+		ds.get("task", view.objId).then(function(result){
 			renderTask.call(view, result);
 		});
 	}, 
@@ -30,7 +31,7 @@ d.register("TodoEditInfoView", {
 		},
 		"click; .btn-delete": function(evt){
 			var view = this;
-			taskHub.delete(view.objId);
+			ds.delete("task", view.objId);
 			d.remove(view.el);
 		}
 	}
@@ -52,5 +53,5 @@ function saveTask(){
 	props.id = view.objId;
 	props = Object.assign(props, d.pull(view.el));
 	// prop.done = props.done == "true" ? true : false;
-	taskHub.update(props);
+	ds.update("task", view.objId, props);
 }

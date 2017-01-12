@@ -1,5 +1,6 @@
 var d = mvdom; // external lib
 var app = require("../js-app/app.js");
+var ds = require("../js-app/ds.js");
 
 /**
  * View: TodoView
@@ -58,17 +59,17 @@ d.register("TodoView", {
 	// --------- /Events --------- //
 
 	hubEvents: {
-		"taskHub": {
-			"Task; delete": function(data, info){
+		"dsHub": {
+			"task; delete": function(data, info){
 				var view = this;
 				refreshTasks.call(view);
 			},
-			"Task; create": function(data, info){
+			"task; create": function(data, info){
 				var view = this;
 				d.display("Toast", d.first("body"), {message: "Created Success"});
 				window.location.hash = "#todo/"+data.id;
 			},
-			"Task; update": function(data, info){
+			"task; update": function(data, info){
 				var view = this;
 				refreshTasks.call(view);
 				d.display("Toast", d.first("body"), {message: "Updated Success"});
@@ -92,7 +93,7 @@ function refreshTasks(){
 	var todosConEl = d.first(view.el, ".todos-con");
 
 	d.empty(todosConEl);
-	return taskHub.list().then(function(result){
+	return ds.list("task").then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
 		todosConEl.innerHTML = todosHtml;
 		showActiveItem.call(view);
