@@ -1,5 +1,6 @@
 var d = mvdom;
 var taskHub = d.hub("taskHub");
+var app = require("./app.js");
 
 
 // Subcribe to a topic 
@@ -9,27 +10,27 @@ taskHub.sub("Task",function(data, info){
 },{ns:"namespace"});
 
 taskHub.list =  function(){
-	return app.get("/task-list");
+	return app.doGet("/task-list");
 }
 
 taskHub.get =  function(taskId){
-	return app.get("/task-get",{id:taskId});
+	return app.doGet("/task-get",{id:taskId});
 }
 
 taskHub.create =  function(data){
-	app.post("/task-create", {props: JSON.stringify(data)}).then(function(result){
+	app.doPost("/task-create", {props: JSON.stringify(data)}).then(function(result){
 		taskHub.pub("Task", "create", result);
 	});
 }
 
 taskHub.update =  function(data){
-	app.post("/task-update", {props: JSON.stringify(data)}).then(function(result){
+	app.doPost("/task-update", {props: JSON.stringify(data)}).then(function(result){
 		taskHub.pub("Task", "update", result);
 	});
 }
 
 taskHub.delete =  function(id){
-	app.post("/task-delete", {id: id}).then(function(result){
+	app.doPost("/task-delete", {id: id}).then(function(result){
 		taskHub.pub("Task", "delete", result);
 	});
 }

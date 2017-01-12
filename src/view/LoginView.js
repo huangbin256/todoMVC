@@ -1,4 +1,5 @@
 var d = mvdom; // external lib
+var app = require("../js-app/app.js");
 
 /**
  * View: LoginView
@@ -45,7 +46,7 @@ function login(data){
 	var view = this;
 	var message = validate.call(view, data);
 	if(!message){
-		app.post("/login", data).then(function(response){
+		app.doPost("/login", data).then(function(response){
 			if (response.success){
 				app.pref.set("username", data.username)
 				window.location.reload(true);

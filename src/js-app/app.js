@@ -1,83 +1,99 @@
+// The `app` module contain the main application methods. This file just have the base, which are the AJAX, 
+// and other app-...js add methods to this scope.
 
 module.exports = {
-	get: get,
-	post: post
+	doGet: doGet,
+	doPost: doPost,
+	doPut: doPut,
+	doDelete: doDelete
 };
 
+// --------- App AJAX API --------- //
+// App AJAX API that all app code should use for ajax request (no matter the backend implementation)
+// Note 1) While it is tempting to expose AJAX library APIs to application code, it is often a better option to provide a smaller and more focused API set
+//         which will provide better AJAX logic control and customizibility as the application scale.
 
-// put in the global scope
-window.app = module.exports;
-
-// --------- AJAX Wrapper --------- //
-// Very simple AJAX wrapper that allow us to simply normalize request/response, and eventually put some hooks such as
-// performance and error reporting. 
-
-
-//////
-// Extremely simple XHR Promise wrapper. 
-// 
-// Inspired from: http://blog.garstasio.com/you-dont-need-jquery/ajax/
-//////
-
-var GET = "GET", POST = "POST";
-
-// --------- Public API --------- //
-function get(url,params){
-	return doXhr(GET, url, params);
+// use for get and list
+function doGet(path, data){
+	return ajax('GET', path, data, null);
 }
 
-function post(url,params){
-	return doXhr(POST, url, params);
+// use for create 
+function doPost(path, data, asBody){
+	return ajax('POST', path, data, asBody);
 }
-// --------- /Public API --------- //
 
-function doXhr(method, url, params){
+// use for update
+function doPut(path, data, asBody){
+	return ajax('PUT', path, data, asBody);
+}
+
+// use for delete
+function doDelete(path, data){
+	return ajax('DELETE', path, data, null);
+}
+// --------- /App AJAX API --------- //
+
+
+// --------- Minimalistic Custom AJAX Implementation --------- //
+// Note: This is a very simple and minimalistic zero dependency AJAX implementation. 
+//       If a little more is needed, then, just adding to this implementation might be a good option. 
+//       Otherwise, using an existing ajax library (by including it in the src/js-lib/index.js) is also a valid option
+
+function ajax(type, path, data, asBody){
+
+	// if asBody is not defined
+	if (asBody == null && (type === 'POST' || type === 'PUT' )){
+		asBody = true;
+	}
 
 	return new Promise(function(resolve, reject){
 		var xhr = new XMLHttpRequest();
-		var uri = encodeURI(url);
 		
-		if (method === GET){
-			var hasParams = (params)?true:false;
-			if (hasParams){
-				uri += "?" + encodeParams(params);
-			}
+		var url = path; 
+
+		if (data && !asBody){
+			url += "?" + param(data);
 		}
 
-		xhr.open(method, uri);
-
-		if (method === POST){
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');	
-		}
+		xhr.open(type, url);
+		xhr.setRequestHeader('Content-Type', 'application/json');
 
 		xhr.onload = function() {
 			if (xhr.status === 200) {
-				resolve (JSON.parse(xhr.responseText));
-			}
-			else if (xhr.status !== 200) {
-				reject(new Error("HTTP XHR ERROR - " + xhr.status + " error for [" + uri + "] " ));
+				try{
+					var response = JSON.parse(xhr.responseText);
+					resolve(response);
+					return;
+				} catch (ex){
+					reject("Cannot do ajax request to '" + url + "' because \n\t" + ex);
+				}
+			}else{
+				console.log("xhr.status '" + xhr.status + "' for ajax " + url, xhr);
+				reject("xhr.status '" + xhr.status + "' for ajax " + url);
 			}
 		};
 
-		if (method === POST){
-			xhr.send(encodeParams(params));
+		// pass body
+		if(asBody){
+			xhr.send(JSON.stringify(data));
 		}else{
-			xhr.send();	
+			xhr.send();
 		}
 		
-	});
+	});		
 }
 
-
-function encodeParams(object) {
+function param(object) {
 	var encodedString = '';
 	for (var prop in object) {
 		if (object.hasOwnProperty(prop)) {
 			if (encodedString.length > 0) {
 				encodedString += '&';
 			}
-			encodedString += encodeURI(prop + '=' + object[prop]);
+			encodedString += prop + '=' + encodeURIComponent(object[prop]);
 		}
 	}
 	return encodedString;
 }
+// --------- /Minimalistic Custom AJAX Implementation --------- //

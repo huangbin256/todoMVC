@@ -1,4 +1,5 @@
 var d = mvdom; // external lib
+var app = require("../js-app/app.js");
 
 
 d.register("Toast", {
