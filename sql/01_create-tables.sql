@@ -4,6 +4,7 @@ CREATE TABLE task
 	id bigserial NOT NULL,
 	name character varying(128),
 	done boolean not null default false,
+	description text not null default '',
 
 	-- Timestamp data
 	"cid" bigInt,
