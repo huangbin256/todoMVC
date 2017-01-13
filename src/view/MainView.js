@@ -1,5 +1,6 @@
 var d = mvdom; // external lib
 var app = require("../js-app/app.js");
+var route = require("../js-app/route.js");
 
 /**
  * View: MainView
@@ -30,16 +31,16 @@ d.register("MainView", {
 	},
 	// --------- /Events --------- //
 
-	// --------- Document Events --------- //
-	docEvents: {
+	// --------- Hub Events --------- //
+	hubEvents: {
 		// event for url changes
-		"APP_CTX_CHANGE": function(event){
+		"routeHub;CHANGE": function(event){
 			var view = this;
 
 			showView.call(view);
 		}
 	}
-	// --------- /Document Events --------- //
+	// --------- /Hub Events --------- //
 
 });
 
@@ -50,8 +51,8 @@ var viewNameByPath = {
 
 function showView(){
 	var view = this;
-	var path0 = app.ctx.pathAt(0);
-	var path1 = app.ctx.pathAt(1);
+	var path0 = route.pathAt(0);
+	var path1 = route.pathAt(1);
 	var contentViewName = viewNameByPath[path0];
 
 	var contentEl = d.first(view.el, ".MainView-content");

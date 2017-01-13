@@ -1,6 +1,7 @@
 var d = mvdom; // external lib
 var app = require("../js-app/app.js");
 var ds = require("../js-app/ds.js");
+var route = require("../js-app/route.js");
 
 /**
  * View: TodoView
@@ -102,7 +103,7 @@ function refreshTasks(){
 
 function showActiveItem(){
 	var view = this;
-	var path1 = app.ctx.pathAt(1);
+	var path1 = route.pathAt(1);
 	var activeId = path1 * 1;
 	var todoEls = d.all(view.el, ".todo-item");
 	for(var i = 0; i < todoEls.length; i++){
