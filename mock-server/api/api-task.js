@@ -64,8 +64,15 @@ routes.push({
 	path:'/task-list', 
 	handler: {
 		async: function* (request, reply) {
-			var payload = request.payload;
-			var tasks =  yield daos.task.list();
+			var payload = request.url.query;
+			var name = payload.name;
+			var done = payload.done;
+			var con = {"name; ilike": "%" + name + "%"};
+			if(!utils.isEmpty(done)){
+				con.done = true;
+			}
+			var tasks =  yield daos.task.list(con);
+			tasks = tasks || [];
 			reply(tasks);
 		}
 	}

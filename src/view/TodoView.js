@@ -39,7 +39,7 @@ d.register("TodoView", {
 		"keyup; input[name='searchName']": function(evt){
 			var view = this;
 			if(evt.keyCode == 13){
-				filterItems.call(view);
+				refreshTasks.call(view);
 			}
 		},
 		"click; .btn-toggle-done": function(evt){
@@ -54,7 +54,7 @@ d.register("TodoView", {
 				app.class.add(btnEl, "show-done");
 				app.class.remove(btnEl, "show-all");
 			}
-			filterItems.call(view);
+			refreshTasks.call(view);
 		},
 	},
 	// --------- /Events --------- //
@@ -92,9 +92,16 @@ function showTodoView(id){
 function refreshTasks(){
 	var view = this;
 	var todosConEl = d.first(view.el, ".todos-con");
+	var inputEl = d.first(view.el, "input[name='searchName']");
+	var btnEl = d.first(view.el, ".btn-toggle-done");
+	var searchName = inputEl.value;
+	var done = "";
+	if(!app.class.has(btnEl, "show-done")){
+		done = true;
+	}
 
 	d.empty(todosConEl);
-	return ds.list("task").then(function(result){
+	return ds.list("task", {name: searchName, done: done}).then(function(result){
 		var todosHtml = render("tmpl-TodoView-todo-item", {todos: result});
 		todosConEl.innerHTML = todosHtml;
 		showActiveItem.call(view);
@@ -126,19 +133,3 @@ function showActiveItem(){
 	}
 }
 
-function filterItems(){
-	var view = this;
-	var inputEl = d.first(view.el, "input[name='searchName']");
-	var btnEl = d.first(view.el, ".btn-toggle-done");
-	var searchName = inputEl.value;
-	var done = app.class.has(btnEl, "show-done") ? false : true;
-	d.all(view.el, ".todo-item").forEach(function(todoItemEl){
-		var itemName = todoItemEl.innerHTML;
-		var doneState = todoItemEl.getAttribute("data-item-state");
-		if((!searchName || itemName.toLowerCase().indexOf(searchName) > -1) && (!done || doneState == "true")){
-			app.class.remove(todoItemEl, "hide");
-		}else{
-			app.class.add(todoItemEl, "hide");
-		}
-	});
-}

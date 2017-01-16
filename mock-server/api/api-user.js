@@ -16,7 +16,6 @@ routes.push({
 			var users = yield daos.user.list();
 			for(var i = 0; i < users.length; i++){
 				var user = users[i];
-			console.log(payload.username == user.username , payload.pwd == user.pwd);
 				if(payload.username == user.username && payload.pwd == user.pwd){
 					reply({success: true});
 				}else{
