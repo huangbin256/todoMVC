@@ -1,5 +1,6 @@
 var d = mvdom; // external lib
 var ds = require("../js-app/ds.js");
+var render = require("../js-app/render.js").render;
 
 /**
  * View: TodoEditPopup

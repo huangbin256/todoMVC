@@ -1,6 +1,7 @@
 var d = mvdom; // external lib
 var app = require("../js-app/app.js");
 var route = require("../js-app/route.js");
+var render = require("../js-app/render.js").render;
 
 /**
  * View: MainView
