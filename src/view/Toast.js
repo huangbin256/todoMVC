@@ -16,7 +16,7 @@ d.register("Toast", {
 		var timeout = data.timeout || 4000;
 		if(data.multiLine){
 			view.el.innerHTML = data.html;
-			app.class.add(view.el, "multi-line");
+			view.el.classList.add("multi-line");
 		}
 		var controlDisappear = data.controlDisappear;
 		var winWidth = window.innerWidth;
@@ -27,22 +27,22 @@ d.register("Toast", {
 		view.el.style.top = ((winHeight - height) / 2) + "px";
 
 		if(!controlDisappear){
-			app.class.add(view.el, "show");
+			view.el.classList.add("show");
 			setTimeout(function(){
-				app.class.remove(view.el, "show");
+				view.el.classList.remove("show");
 				d.on(view.el, "webkitTransitionEnd", function(){
 					d.remove(view.el);
 				});
 			}, timeout);
 		}else{
-			app.class.add(view.el, "transitioning-fast show");
-			app.class.remove(view.el, "transitioning");
+			view.el.classList.add("transitioning-fast show");
+			view.el.classList.remove("transitioning");
 		}
 	},
 	close: function(){
 		var view = this;
 		setTimeout(function(){
-			app.class.remove(view.el, "show");
+			view.el.classList.remove("show");
 			d.on(view.el, "webkitTransitionEnd", function(){
 				d.remove(view.el);
 			});

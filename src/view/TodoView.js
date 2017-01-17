@@ -46,14 +46,14 @@ d.register("TodoView", {
 		"click; .btn-toggle-done": function(evt){
 			var view = this;
 			var btnEl = evt.target;
-			if(app.class.has(btnEl, "show-done")){
+			if(btnEl.classList.contains("show-done")){
 				btnEl.innerHTML = "Show All";
-				app.class.add(btnEl, "show-all");
-				app.class.remove(btnEl, "show-done");
+				btnEl.classList.add("show-all");
+				btnEl.classList.remove("show-done");
 			}else{
 				btnEl.innerHTML = "Show Done";
-				app.class.add(btnEl, "show-done");
-				app.class.remove(btnEl, "show-all");
+				btnEl.classList.add("show-done");
+				btnEl.classList.remove("show-all");
 			}
 			refreshTasks.call(view);
 		},
@@ -97,7 +97,7 @@ function refreshTasks(){
 	var btnEl = d.first(view.el, ".btn-toggle-done");
 	var searchName = inputEl.value;
 	var done = "";
-	if(!app.class.has(btnEl, "show-done")){
+	if(!btnEl.classList.contains("show-done")){
 		done = true;
 	}
 
@@ -115,13 +115,13 @@ function showActiveItem(){
 	var activeId = path1 * 1;
 	var todoEls = d.all(view.el, ".todo-item");
 	for(var i = 0; i < todoEls.length; i++){
-		app.class.remove(todoEls[i], "active");
+		todoEls[i].classList.remove("active");
 	}
 	
 	if(!isNaN(activeId) && activeId > 0){
 		var activeItemEl = d.first(view.el, ".todo-item[data-item-id='"+activeId+"']");
 		if(activeItemEl){
-			app.class.add(activeItemEl, "active");
+			activeItemEl.classList.add("active");
 		}
 	}else if(path1 == "new"){
 		d.display("TodoEditPopup", d.first("body"));
